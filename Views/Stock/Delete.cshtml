@@ -1,0 +1,43 @@
+﻿@model Stock
+@{
+    ViewData["Title"] = "Delete Stock";
+}
+
+<h1 class="h3 mb-2 text-gray-800">Delete Stock</h1>
+<p class="mb-4">
+    This form displays the details of the choosen stock to delete. To delete the stock from database click "Delete" button.
+</p>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Delete</h6>
+    </div>
+    <div class="card-body">
+        <div class="mb-3">
+            <label asp-for="Symbol"></label>
+            <input asp-for="Symbol" readonly class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CompanyName"></label>
+            <input asp-for="CompanyName" readonly class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CurrentPrice"></label>
+            <input asp-for="CurrentPrice" readonly class="form-control" />
+        </div>
+
+        <p>Are you sure you want to delete this record? This action will remove the stock with symbol <strong>@Model.Symbol</strong> @Model.StockID from the database permanently.</p>
+        
+        <form method="post" asp-action="Delete">
+            <input type="hidden" asp-for="StockID" />
+            <button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
+            <a asp-controller="Stock" asp-action="Index" class="btn btn-secondary" style="width:150px">
+                Back to List
+            </a>
+        </form>
+    </div>
+</div>
+
+

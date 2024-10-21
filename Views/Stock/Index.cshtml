@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Stock>
+@{
+    ViewData["Title"] = "Stocks";
+}
+
+<h1 class="h3 mb-2 text-gray-800">Stocks List</h1>
+<p class="mb-4">
+    This table displays the list of stocks fetched from the database, including the stock symbol, company name, and current price.
+</p>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Stocks List</h6>
+        <a asp-controller="Stock" asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> &nbsp; Create Stock
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="stocksTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            Stock Symbol
+                        </th>
+                        <th>
+                            Company Name
+                        </th>
+                        <th>
+                            Current Price
+                        </th>
+                        <th>
+                            Last Updated
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>
+                            Stock Symbol
+                        </th>
+                        <th>
+                            Company Name
+                        </th>
+                        <th>
+                            Current Price
+                        </th>
+                        <th>
+                            Last Updated
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var stock in Model)
+                    {
+                        <tr>
+                            <td>
+                                @stock.Symbol
+                            </td>
+                            <td width="25%">
+                                @stock.CompanyName
+                            </td>
+                            <td>
+                                @stock.CurrentPrice $
+                            </td>
+                            <td width="25%">
+                                @stock.LastUpdated
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@stock.StockID">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@stock.StockID">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@stock.StockID">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready( function () {
+            $('#stocksTable').DataTable();
+        } );
+    </script>
+}

@@ -1,0 +1,142 @@
+﻿@model PortfolioViewModel
+
+@{
+    ViewData["Title"] = "Portfolio";
+}
+
+<div class="container mt-4 px-1" style="max-width: 1250px;">
+    <!-- Header Section -->
+    <div class="row mb-3">
+        <div class="col">
+            <h1 class="h3 mb-0 text-gray-800">Portfolio</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        @foreach (var card in Model.Cards)
+        {
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card @card.BarColor shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold @card.HeaderColor text-uppercase mb-1">
+                                    @card.Header
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    @card.Value
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="@card.Icon text-gray-300" style="font-size: 2rem;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        <div class="col-xl-7 col-lg-7">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Stocks</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="stocksTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Company Name</th>
+                                    <th>Total Shares</th>
+                                    <th>Current Price</th>
+                                    <th>Total Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Stocks)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Symbol)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CompanyName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TotalShares)
+                                        </td>
+                                        <td>
+                                            $ @Html.DisplayFor(modelItem => item.CurrentPrice)
+                                        </td>
+                                        <td>
+                                            $ @Html.DisplayFor(modelItem => item.TotalValue)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-5 col-lg-5">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Recent Transactions</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="transactionsTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Stock</th>
+                                    <th>Quantity</th>
+                                    <th>Transaction Type</th>
+                                    <th>Price At Transaction</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @foreach (var item in Model.Portfolio.Transactions)
+                                    {
+                                    <tr>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.Stock.Symbol)
+                                        </td>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.Quantity)
+                                        </td>
+                                        <td>
+                                                @(item.isBuy ? "Purchase" : "Sale")
+                                        </td>
+                                        <td>
+                                            $ @Html.DisplayFor(modelItem => item.PriceAtTransaction)
+                                        </td>
+                                    </tr>
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready( function () {
+            $('#stocksTable').DataTable();
+        } );
+    </script>
+}

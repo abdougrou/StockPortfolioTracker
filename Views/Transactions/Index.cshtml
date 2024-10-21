@@ -1,0 +1,118 @@
+﻿@model IEnumerable<StockPortfolioTracker.Models.Transaction>
+
+@{
+    ViewData["Title"] = "Buy/Sell Stocks";
+}
+
+<h1 class="h3 mb-2 text-gray-800">Buy/Sell Stocks</h1>
+<p class="mb-4">
+    This table displays the transaction history fetched from the database, including the portfolio, stock symbol, quantity, transaction type, price at the time of transaction, transaction date, and available actions.
+</p>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Transactions List</h6>
+        <div>
+            <a asp-controller="Transactions" asp-action="Buy" class="btn btn-primary">
+                <i class="bi bi-cart-plus"></i> &nbsp; Buy Stock
+            </a>
+            <a asp-controller="Transactions" asp-action="Sell" class="btn btn-primary">
+                <i class="bi bi-cash"></i> &nbsp; Sell Stock
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="transactionsTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Stock)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Quantity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.isBuy)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PriceAtTransaction)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TransactionStatus)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TransactionDate)
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Stock)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Quantity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.isBuy)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PriceAtTransaction)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TransactionStatus)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TransactionDate)
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Stock.CompanyName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @(item.isBuy ? "Purchase" : "Sale")
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PriceAtTransaction)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransactionStatus.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TransactionDate)
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.TransactionID">Edit</a> |
+                                <a asp-action="Details" asp-route-id="@item.TransactionID">Details</a> |
+                                <a asp-action="Delete" asp-route-id="@item.TransactionID">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready( function () {
+            $('#transactionsTable').DataTable();
+        } );
+    </script>
+}

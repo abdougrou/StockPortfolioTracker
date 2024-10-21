@@ -1,0 +1,50 @@
+﻿@model Stock
+@{
+    ViewData["Title"] = "Edit Stock";
+}
+
+    <h1 class="h3 mb-2 text-gray-800">Edit Stock</h1>
+    <p class="mb-4">
+        To complete this form to update a stock, please provide the stock symbol, the company name and the stock's price;
+        Currently the prices are static in the database.
+    </p>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Edit</h6>
+        </div>
+        <div class="card-body">
+            <form method="post" asp-action="Edit">
+                <div asp-validation-summary="All"></div>
+                <input type="hidden" asp-for="StockID" />
+                <div class="mb-3">
+                    <label asp-for="Symbol"></label>
+                    <input asp-for="Symbol" class="form-control" />
+                    <span asp-validation-for="Symbol" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="CompanyName"></label>
+                    <input asp-for="CompanyName" class="form-control" />
+                    <span asp-validation-for="CompanyName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="CurrentPrice"></label>
+                    <input asp-for="CurrentPrice" class="form-control" />
+                    <span asp-validation-for="CurrentPrice" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+                <a asp-controller="Stock" asp-action="Index" class="btn btn-secondary" style="width:150px">
+                    Back to List
+                </a>
+            </form>
+        </div>
+    </div>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

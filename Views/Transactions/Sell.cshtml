@@ -1,0 +1,77 @@
+﻿@model StockPortfolioTracker.Models.Transaction
+
+@{
+    ViewData["Title"] = "Sell";
+}
+
+<form method="post">
+<h1 class="h3 mb-2 text-gray-800">Sell Stock</h1>
+<p class="mb-4">
+    To complete this form to sell a stock, please provide the stock symbol and the number of shares to sale;
+    the stock price will be fetched automatically from the database
+</p>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Buy</h6>
+    </div>
+    <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="PortfolioID" class="control-label"></label>
+                <select asp-for="PortfolioID" class="form-control" asp-items="ViewBag.PortfolioID" readonly></select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="StockID" class="control-label"></label>
+                <select asp-for="StockID" class="form-control" asp-items="ViewBag.StockID" id="StockID"></select>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" min="0" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="PriceAtTransaction" class="control-label"></label>
+                <input asp-for="PriceAtTransaction" class="form-control" id="PriceAtTransaction" readonly />
+                <span asp-validation-for="PriceAtTransaction" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:150px">Sell</button>
+            <a asp-controller="Transactions" asp-action="Index" class="btn btn-secondary" style="width:150px">
+                Back to List
+            </a>
+    </div>
+</div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#StockID').change(function () {
+                var stockId = $(this).val();
+                var portfolioId = $('#PortfolioID').val(); // Get the portfolio ID from the hidden input or select
+
+                if (stockId && portfolioId) {
+                    $.ajax({
+                        url: '@Url.Action("GetStockDetails", "Transactions")',
+                        type: 'GET',
+                        data: { stockId: stockId, portfolioId: portfolioId },
+                        success: function (data) {
+                            if (data && data.price && data.shares) {
+                                $('#PriceAtTransaction').val(data.price); // Set price
+                                $('#Quantity').attr('max', data.shares);  // Set max quantity
+                                $('#Quantity').attr('placeholder', 'Max: ' + data.shares); // Optional: show max in placeholder
+                            }
+                        },
+                        error: function () {
+                            alert('Failed to retrieve stock details.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
+
