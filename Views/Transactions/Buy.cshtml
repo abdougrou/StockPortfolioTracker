@@ -52,39 +52,23 @@
         $(document).ready(function () {
             $('#StockID').change(function () {
                 var stockId = $(this).val();
+
                 if (stockId) {
                     $.ajax({
-                        url: '@Url.Action("GetStockPrice", "Transactions")',
+                        url: '@Url.Action("GetStockPrices", "Transactions")',
                         type: 'GET',
                         data: { stockId: stockId },
                         success: function (data) {
                             if (data && data.price) {
-                                $('#PriceAtTransaction').val(data.price);
+                                $('#PriceAtTransaction').val(data.price); // Set price
                             }
                         },
                         error: function () {
-                            alert('Failed to retrieve the stock price.');
+                            alert('Failed to retrieve stock details.');
                         }
                     });
                 }
             });
-        });
-
-        // Intercept the form submit event to log form data
-        $('form').submit(function (event) {
-            event.preventDefault(); // Stop the form from submitting automatically
-
-            // Create a FormData object to collect form data
-            var formData = new FormData(this);
-
-            // Log the form data
-            console.log("Form data:");
-            formData.forEach(function (value, key) {
-                console.log(key + ": " + value);
-            });
-
-            // Now you can manually submit the form using AJAX or re-enable the default behavior
-            this.submit(); // This will submit the form after logging the data
         });
     </script>
 

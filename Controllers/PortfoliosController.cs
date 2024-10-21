@@ -46,6 +46,11 @@ namespace StockPortfolioTracker.Controllers
                 .Where(s => s.TotalShares > 0)
                 .ToList();
 
+            if (portfolio != null)
+            {
+                portfolio.Transactions = portfolio.Transactions.OrderByDescending(t => t.TransactionDate).ToList();
+            }
+
             // Calculate the total value of the portfolio by summing up each stock's TotalValue
             portfolio.TotalValue = portfolioStocks.Sum(s => s.TotalValue);
 

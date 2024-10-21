@@ -69,6 +69,27 @@ namespace StockPortfolioTracker.Controllers
             return Json(new { price = ownedStock.CurrentPrice, shares = ownedStock.TotalShares });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetStockPrices(int stockId)
+        {
+            // Fetch the stock price
+            var stock = await _db.Stock
+                .Where(s => s.StockID == stockId)
+                .Select(t => new
+                {
+                    t.StockID,
+                    t.CurrentPrice
+                })
+                .FirstOrDefaultAsync();
+
+            if (stock == null)
+            {
+                return NotFound();
+            }
+
+            return Json(new { price = stock.CurrentPrice });
+        }
+
         // GET: Transactions/Buy
         public IActionResult Buy()
         {
@@ -192,7 +213,7 @@ namespace StockPortfolioTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TransactionID,PortfolioID,StockID,Quantity,PriceAtTransaction,TransactionStatusID,TransactionDate")] Transaction transaction)
+        public async Task<IActionResult> Edit(int id, [Bind("TransactionID,PortfolioID,StockID,Quantity,PriceAtTransaction,isBuy,TransactionStatusID,TransactionDate")] Transaction transaction)
         {
             if (id != transaction.TransactionID)
             {

@@ -4,7 +4,6 @@
     ViewData["Title"] = "Sell";
 }
 
-<form method="post">
 <h1 class="h3 mb-2 text-gray-800">Sell Stock</h1>
 <p class="mb-4">
     To complete this form to sell a stock, please provide the stock symbol and the number of shares to sale;
@@ -13,9 +12,10 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-        <h6 class="m-0 font-weight-bold text-primary">Buy</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Sell</h6>
     </div>
     <div class="card-body">
+        <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="mb-3">
                 <label asp-for="PortfolioID" class="control-label"></label>
@@ -40,9 +40,9 @@
             <a asp-controller="Transactions" asp-action="Index" class="btn btn-secondary" style="width:150px">
                 Back to List
             </a>
+        </form>
     </div>
 </div>
-</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
